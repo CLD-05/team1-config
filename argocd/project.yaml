@@ -1,0 +1,18 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: team1-project
+  namespace: argocd
+spec:
+  description: team1 gitops project
+
+  sourceRepos:
+    - https://github.com/CLD-05/team1-config.git
+
+  destinations:
+    - namespace: team1-dev
+      server: https://kubernetes.default.svc
+
+  clusterResourceWhitelist:
+    - group: ""
+      kind: Namespace
