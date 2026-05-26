@@ -7,9 +7,6 @@ resources:
 - ../../base
 
 images:
-- name: nginx
-  newName: 495599735720.dkr.ecr.ap-northeast-2.amazonaws.com/team1-course-service
-  newTag: latest
-- name: nginx:1.27
-  newName: 495599735720.dkr.ecr.ap-northeast-2.amazonaws.com/course-service
-  newTag: 8c0d75976ff2d1f3696d911f43e5efcba2e34c5b
+  - name: nginx
+    newName: 495599735720.dkr.ecr.ap-northeast-2.amazonaws.com/team1-course-service
+    newTag: latest
