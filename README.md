@@ -199,3 +199,13 @@ GitOps 초기 구성
 - Kustomization 작성
 - ArgoCD Project 작성
 - ArgoCD Application 작성
+
+# 추가 수정
+kustomization.yaml 부분의
+
+images:
+  - name: nginx
+    newName: 495599735720.dkr.ecr.ap-northeast-2.amazonaws.com/course-service
+    newTag: latest
+
+해당 부분의 경우 실사용하는 aws계정 아이디로 값을 바꾸고, 태그도 경우에 따라 바꿔줘야할 수 있음
