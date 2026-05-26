@@ -1,0 +1,23 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: team1-app-prod
+  namespace: argocd
+spec:
+  project: team1-project
+
+  source:
+    repoURL: https://github.com/CLD-05/team1-config.git
+    targetRevision: main
+    path: apps/team1-app/overlays/prod
+
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: team1-prod
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
