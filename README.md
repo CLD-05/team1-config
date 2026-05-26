@@ -20,7 +20,7 @@ ArgoCD를 사용하여 GitHub 저장소의 변경사항을 감지하고 Kubernet
 
 # 디렉토리 구조
 
-```text
+```
 team1-config
 │
 ├─ apps
@@ -31,11 +31,15 @@ team1-config
 │      │   └─ kustomization.yaml
 │      │
 │      └─ overlays
-│          └─ dev
+│          ├─ dev
+│          │   └─ kustomization.yaml
+│          │
+│          └─ prod
 │              └─ kustomization.yaml
 │
 └─ argocd
-    ├─ application.yaml
+    ├─ application-dev.yaml
+    ├─ application-prod.yaml
     └─ project.yaml
 ```
 
@@ -134,7 +138,8 @@ ArgoCD Project 설정 파일입니다.
 파일
 
 ```text
-argocd/application.yaml
+argocd/application-dev.yaml
+argocd/application-prod.yaml
 ```
 
 ArgoCD가 실제 배포를 수행하기 위한 설정 파일입니다.
@@ -173,14 +178,16 @@ Git 저장소의 변경사항이 발생하면 ArgoCD가 이를 감지하여 Kube
 # 개발 환경(dev)
 
 현재 프로젝트는 dev 환경 기준으로 구성되어 있습니다.
++prod추가
 
 설정 위치
 
 ```text
 apps/team1-app/overlays/dev
+apps/team1-app/overlays/prod
 ```
 
-향후 운영 환경(prod)이 필요할 경우 다음 구조로 확장 가능합니다.
+향후 운영 환경(prod)이 필요할 경우 다음 구조로 확장 가능합니다.(확장완료)
 
 ```text
 apps/team1-app/overlays
@@ -209,3 +216,22 @@ images:
     newTag: latest
 
 해당 부분의 경우 실사용하는 aws계정 아이디로 값을 바꾸고, 태그도 경우에 따라 바꿔줘야할 수 있음
+<<<<<<< HEAD
+=======
+
+
+# 추가수정 2
+
+prod추가에 의한 파일 추가
+-prod폴더 및 하위파일 kustomization.yaml
+-기존 application.yaml파일 구별을 위해 이름 -dev로 변경
+-application-prod.yaml 추가
+-project.yaml파일 내용 prod적용 위해 일부 변경
+ㅡㅡㅡ
+destinations:
+  - namespace: team1-dev
+    server: https://kubernetes.default.svc
+  - namespace: team1-prod
+    server: https://kubernetes.default.svc
+ㅡㅡㅡ
+>>>>>>> 36ad35f (chore: add prod overlay and ArgoCD prod application)
