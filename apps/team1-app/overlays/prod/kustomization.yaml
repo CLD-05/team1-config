@@ -8,5 +8,5 @@ resources:
 
 images:
   - name: nginx
-    newName: 495599735720.dkr.ecr.ap-northeast-2.amazonaws.com/course-service
+    newName: 495599735720.dkr.ecr.ap-northeast-2.amazonaws.com/team1-course-service
     newTag: latest
