@@ -11,5 +11,5 @@ images:
   newName: 495599735720.dkr.ecr.ap-northeast-2.amazonaws.com/team1-course-service
   newTag: latest
 - name: nginx:1.27
-  newName: 495599735720.dkr.ecr.ap-northeast-2.amazonaws.com/course-service
-  newTag: 8c5ead17df09698c5aaad7ba2dfd5544aff55bac
+  newName: 495599735720.dkr.ecr.ap-northeast-2.amazonaws.com/team1-course-service
+  newTag: 29aa848e3a6fc6beffecc06d3f1f37d817706eaf
