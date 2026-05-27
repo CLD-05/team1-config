@@ -7,6 +7,6 @@ resources:
   - ../../base
 
 images:
-  - name: nginx
-    newName: 495599735720.dkr.ecr.ap-northeast-2.amazonaws.com/course-service
-    newTag: latest
+  - name: nginx:1.27 # 👈 base의 nginx:1.27과 똑같이 맞춰서 매칭 성공률을 높입니다.
+    newName: 495599735720.dkr.ecr.ap-northeast-2.amazonaws.com/team1-course-service
+    newTag: latest # 👈 이 자리를 이제 깃허브 액션이 실시간으로 갈아 끼울 겁니다.
