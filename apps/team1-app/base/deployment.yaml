@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: team1-app
-          image: 514917275091.dkr.ecr.ap-northeast-2.amazonaws.com/course-service:1.0
+          image: 495599735720.dkr.ecr.ap-northeast-2.amazonaws.com/team1-course-service:1.0
           ports:
             - containerPort: 8080 
           env:
