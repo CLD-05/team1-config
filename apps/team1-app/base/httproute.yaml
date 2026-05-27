@@ -2,13 +2,13 @@ apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
   name: team1-app
-  namespace: default # 네임스페이스 지정
+  namespace: default
 spec:
   parentRefs:
-    - name: dev-gateway   # Gateway 리소스 이름 지정
+    - name: team1-gateway
       namespace: default
-  hostnames:
-    - "team1.dev.course-registration.com" # dev 도메인 주소 지정
+  # hostnames:
+  #   - "team1.dev.course-registration.com"
   rules:
     - matches:
         - path:
@@ -16,4 +16,4 @@ spec:
             value: /
       backendRefs:
         - name: team1-app
-          port: 8080
+          port: 80
