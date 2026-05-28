@@ -2,11 +2,11 @@ apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
   name: team1-app
-  namespace: default
+  namespace: team1-dev
 spec:
   parentRefs:
     - name: team1-gateway
-      namespace: default
+      namespace: team1-dev
   # hostnames:
   #   - "team1.dev.course-registration.com"
   rules:

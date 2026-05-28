@@ -2,29 +2,18 @@ apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
   name: team1-app-hpa
-  namespace: default
+  namespace: team1-dev
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
     name: team1-app
   minReplicas: 2
-  maxReplicas: 20
+  maxReplicas: 10
   metrics:
   - type: Resource
     resource:
       name: cpu
       target:
         type: Utilization
-        averageUtilization: 50 
-  minReplicas: 2
-  maxReplicas: 5
-
-  metrics:
-    - type: Resource
-      resource:
-        name: cpu
-        target:
-          type: Utilization
-          averageUtilization: 60
-
+        averageUtilization: 60

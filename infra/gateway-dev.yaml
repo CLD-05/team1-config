@@ -4,7 +4,7 @@ kind: GatewayClass
 metadata:
   name: aws-alb
 spec:
-  controllerName: eks.amazonaws.com/alb
+  controllerName: gateway.k8s.aws/alb
 
 ---
 # LoadBalancerConfiguration (team1-app)

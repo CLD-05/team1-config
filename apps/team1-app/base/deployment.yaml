@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: team1-app
-  namespace: default
+  namespace: team1-dev
 spec:
   replicas: 2
   selector:
@@ -15,9 +15,30 @@ spec:
     spec:
       containers:
         - name: team1-app
-          image: 495599735720.dkr.ecr.ap-northeast-2.amazonaws.com/team1-course-service:1.0
+          image: 495599735720.dkr.ecr.ap-northeast-2.amazonaws.com/course-service:a4fb7bd1dc6d0e5cc831a69b9b14c8489ebf858e
           ports:
-            - containerPort: 8080 
+            - containerPort: 8080
+
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: "dev"
+            - name: DB_URL
+              value: "jdbc:mysql://team1-rds-primary.cne4w2cys26c.ap-northeast-2.rds.amazonaws.com:3306/course_registration"
+            - name: DB_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: team1-secret
+                  key: db-username
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: team1-secret
+                  key: db-password
+            - name: JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: team1-secret
+                  key: jwt-secret
 
           resources:
             requests:
