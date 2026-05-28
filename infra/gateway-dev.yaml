@@ -1,0 +1,150 @@
+# GatewayClass
+apiVersion: gateway.networking.k8s.io/v1
+kind: GatewayClass
+metadata:
+  name: aws-alb
+spec:
+  controllerName: eks.amazonaws.com/alb
+
+---
+# LoadBalancerConfiguration (team1-app)
+apiVersion: gateway.k8s.aws/v1beta1
+kind: LoadBalancerConfiguration
+metadata:
+  name: team1-lb-config
+  namespace: team1-gateway
+spec:
+  scheme: internet-facing
+
+---
+# TargetGroupConfiguration (team1-app)
+apiVersion: gateway.k8s.aws/v1beta1
+kind: TargetGroupConfiguration
+metadata:
+  name: team1-app-tg-config
+  namespace: team1-dev
+spec:
+  targetReference:
+    name: team1-app
+  defaultConfiguration:
+    targetType: ip
+    healthCheckConfig:
+      healthCheckPath: /actuator/health
+      healthCheckPort: traffic-port
+      healthCheckInterval: 15
+      healthyThresholdCount: 2
+      unhealthyThresholdCount: 3
+
+---
+# Gateway (team1-app)
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: team1-gateway
+  namespace: team1-gateway
+spec:
+  gatewayClassName: aws-alb
+  infrastructure:
+    parametersRef:
+      group: gateway.k8s.aws
+      kind: LoadBalancerConfiguration
+      name: team1-lb-config
+  listeners:
+  - name: http
+    port: 80
+    protocol: HTTP
+    allowedRoutes:
+      namespaces:
+        from: All
+
+---
+# HTTPRoute (team1-app)
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: team1-route
+  namespace: team1-dev
+spec:
+  parentRefs:
+  - name: team1-gateway
+    namespace: team1-gateway
+  rules:
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /
+    backendRefs:
+    - name: team1-app
+      port: 80
+      weight: 100
+
+---
+# LoadBalancerConfiguration (ArgoCD)
+apiVersion: gateway.k8s.aws/v1beta1
+kind: LoadBalancerConfiguration
+metadata:
+  name: argocd-lb-config
+  namespace: argocd
+spec:
+  scheme: internet-facing
+
+---
+# TargetGroupConfiguration (ArgoCD)
+apiVersion: gateway.k8s.aws/v1beta1
+kind: TargetGroupConfiguration
+metadata:
+  name: argocd-server-tg-config
+  namespace: argocd
+spec:
+  targetReference:
+    name: argocd-server
+  defaultConfiguration:
+    targetType: ip
+    healthCheckConfig:
+      healthCheckPath: /
+      healthCheckPort: traffic-port
+      healthCheckInterval: 15
+      healthyThresholdCount: 2
+      unhealthyThresholdCount: 3
+
+---
+# Gateway (ArgoCD)
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: argocd-gateway
+  namespace: argocd
+spec:
+  gatewayClassName: aws-alb
+  infrastructure:
+    parametersRef:
+      group: gateway.k8s.aws
+      kind: LoadBalancerConfiguration
+      name: argocd-lb-config
+  listeners:
+  - name: http
+    port: 80
+    protocol: HTTP
+    allowedRoutes:
+      namespaces:
+        from: Same
+
+---
+# HTTPRoute (ArgoCD)
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: argocd-route
+  namespace: argocd
+spec:
+  parentRefs:
+  - name: argocd-gateway
+  rules:
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /
+    backendRefs:
+    - name: argocd-server
+      port: 80
+      weight: 100
