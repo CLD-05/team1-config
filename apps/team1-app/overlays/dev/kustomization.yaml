@@ -4,7 +4,7 @@ kind: Kustomization
 namespace: team1-dev
 
 resources:
-  - ../../base
+- ../../base
 
 images:
 - name: nginx:1.27
