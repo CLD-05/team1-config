@@ -14,6 +14,16 @@ spec:
     spec:
       containers:
         - name: team1-app
-          image: nginx:1.27
+          image: 495599735720.dkr.ecr.ap-northeast-2.amazonaws.com/team1-course-service:1.0
           ports:
-            - containerPort: 8080
+            - containerPort: 8080 
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: "dev"
+          resources:
+            requests:
+              cpu: "250m"
+              memory: "512Mi"
+            limits:
+              cpu: "500m"
+              memory: "1Gi"
