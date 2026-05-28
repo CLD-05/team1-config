@@ -9,4 +9,4 @@ resources:
 images:
 - name: nginx:1.27
   newName: 495599735720.dkr.ecr.ap-northeast-2.amazonaws.com/course-service
-  newTag: 5f04b9b1509ac62e8144019ed64fbb2d736f47fb
+  newTag: 3c772ea6d3d6ceb3af9cfc84e189f1c3804e090c
