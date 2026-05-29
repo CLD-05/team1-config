@@ -21,9 +21,23 @@ spec:
           env:
             - name: SPRING_PROFILES_ACTIVE
               value: "dev"
-          envFrom:
-            - secretRef:
-                name: team1-secret
+            - name: DB_URL
+              value: "jdbc:mysql://team1-rds-primary.cne4w2cys26c.ap-northeast-2.rds.amazonaws.com:3306/course_registration"
+            - name: DB_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: team1-secret
+                  key: db-username
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: team1-secret
+                  key: db-password
+            - name: JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: team1-secret
+                  key: jwt-secret
           resources:
             requests:
               cpu: "250m"
