@@ -198,6 +198,26 @@ spec:
       port: 80
       weight: 100
 ---
+# TargetGroupConfiguration (Grafana)
+apiVersion: gateway.k8s.aws/v1beta1
+kind: TargetGroupConfiguration
+metadata:
+  name: grafana-tg-config
+  namespace: monitoring
+spec:
+  targetReference:
+    name: kube-prom-stack-grafana
+  defaultConfiguration:
+    targetType: ip
+    healthCheckConfig:
+      healthCheckPath: /api/health
+      healthCheckPort: traffic-port
+      healthCheckInterval: 15
+      healthyThresholdCount: 2
+
+      unhealthyThresholdCount: 3
+      unhealthyThresholdCount: 3
+---
 # LoadBalancerConfiguration (Prometheus)
 apiVersion: gateway.k8s.aws/v1beta1
 kind: LoadBalancerConfiguration
@@ -243,6 +263,26 @@ spec:
         type: PathPrefix
         value: /
     backendRefs:
-    - name: prometheus-kube-prom-stack-kube-prome-prometheus
+    - name: kube-prom-stack-kube-prome-prometheus
       port: 9090
       weight: 100
+---
+# TargetGroupConfiguration (Prometheus)
+apiVersion: gateway.k8s.aws/v1beta1
+kind: TargetGroupConfiguration
+metadata:
+  name: prometheus-tg-config
+  namespace: monitoring
+spec:
+  targetReference:
+    name: kube-prom-stack-kube-prome-prometheus
+  defaultConfiguration:
+    targetType: ip
+    healthCheckConfig:
+      healthCheckPath: /-/healthy
+      healthCheckPort: traffic-port
+      healthCheckInterval: 15
+      healthyThresholdCount: 2
+
+      unhealthyThresholdCount: 3
+      unhealthyThresholdCount: 3
