@@ -9,4 +9,4 @@ resources:
 images:
 - name: nginx:1.27
   newName: 495599735720.dkr.ecr.ap-northeast-2.amazonaws.com/team1-app
-  newTag: 115dd0df3ebda542492c62c1230f04647b1e43e5
+  newTag: 0e19ee09c23468b791ec57fc2b04c9615261b9d1
