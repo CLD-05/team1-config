@@ -14,7 +14,7 @@ spec:
     matchLabels:
       app.kubernetes.io/name: team1-app           # base/service.yaml의 라벨과 일치
   endpoints:
-    - port: http                                 # Service에서 정의한 포트 name
+    - port: management                           # Service에서 정의한 포트 name
       path: /actuator/prometheus
       interval: 15s
       scrapeTimeout: 10s
