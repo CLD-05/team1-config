@@ -1,0 +1,21 @@
+# argocd/application-monitoring.yaml
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: team1-monitoring
+  namespace: argocd
+spec:
+  project: team1-project
+  source:
+    repoURL: https://github.com/CLD-05/team1-config.git
+    targetRevision: main
+    path: infra/prometheus
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: monitoring
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
