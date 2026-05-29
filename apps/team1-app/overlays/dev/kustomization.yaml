@@ -8,5 +8,5 @@ resources:
 - external-secret.yaml
 images:
 - name: nginx:1.27
-  newName: 495599735720.dkr.ecr.ap-northeast-2.amazonaws.com/course-service
-  newTag: a4fb7bd1dc6d0e5cc831a69b9b14c8489ebf858e
+  newName: 495599735720.dkr.ecr.ap-northeast-2.amazonaws.com/team1-app
+  newTag: 115dd0df3ebda542492c62c1230f04647b1e43e5
