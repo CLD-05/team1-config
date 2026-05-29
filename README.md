@@ -144,7 +144,7 @@ argocd/application-prod.yaml
 
 ArgoCD가 실제 배포를 수행하기 위한 설정 파일입니다.
 
-주요 역할
+주요 역할.
 
 - Git 저장소 감시
 - Kubernetes 배포 수행
