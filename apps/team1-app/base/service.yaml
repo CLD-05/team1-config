@@ -2,10 +2,6 @@ apiVersion: v1
 kind: Service
 metadata:
   name: team1-app
-  namespace: team1-dev
-  labels:                              # ← 추가 필요
-    app: team1-app
-    app.kubernetes.io/name: team1-app  # ← ServiceMonitor가 이걸로 매칭
 spec:
   type: ClusterIP
   selector:
