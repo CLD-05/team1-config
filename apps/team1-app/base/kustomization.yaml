@@ -5,3 +5,5 @@ resources:
   - deployment.yaml
   - service.yaml
   # - httproute.yaml
+  - keda-scaled.yaml
+
