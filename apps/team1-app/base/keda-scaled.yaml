@@ -1,0 +1,56 @@
+# apps/team1-app/base/keda-scaled.yaml
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: team1-app-scaledobject
+  namespace: default
+spec:
+  scaleTargetRef:
+    name: team1-app
+
+  # 최소/최대 Pod 수
+  minReplicaCount: 2
+  maxReplicaCount: 30
+  cooldownPeriod: 300
+  pollingInterval: 30
+
+  # 트래픽 튐 방지
+  advanced:
+    horizontalPodAutoscalerConfig:
+      behavior:
+        scaleDown:
+          stabilizationWindowSeconds: 300
+
+  triggers:
+    # 오전 수강신청 시간대 사전 Scale-Out
+    # 09:30 ~ 10:30
+    - type: cron
+      metadata:
+        timezone: Asia/Seoul
+        start: "30 9 * * 1-5"
+        end: "40 10 * * 1-5"     # 수강 신청 끝나는 시간보다 +10분 추가함
+        desiredReplicas: "15"
+
+    # 오후 14시 수강신청 시간대
+    # 13:30 ~ 14:30
+    - type: cron
+      metadata:
+        timezone: Asia/Seoul
+        start: "30 13 * * 1-5"
+        end: "40 14 * * 1-5"
+        desiredReplicas: "15"
+
+    # 오후 16시 수강신청 시간대
+    # 15:30 ~ 16:30
+    - type: cron
+      metadata:
+        timezone: Asia/Seoul
+        start: "30 15 * * 1-5"
+        end: "40 16 * * 1-5"
+        desiredReplicas: "15"
+
+    # CPU 평균 사용률 기반 Auto Scaling - 실시간 트래픽 대응
+    - type: cpu
+      metricType: Utilization
+      metadata:
+        value: "50"
