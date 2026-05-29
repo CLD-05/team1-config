@@ -17,8 +17,10 @@ spec:
         - name: team1-app
           image: 495599735720.dkr.ecr.ap-northeast-2.amazonaws.com/team1-app:latest
           ports:
-            - containerPort: 8080 
-
+            - containerPort: 8080
+          envFrom:
+            - secretRef:
+                name: team1-secret
           resources:
             requests:
               cpu: "250m"
@@ -26,7 +28,6 @@ spec:
             limits:
               cpu: "500m"
               memory: "1Gi"
-
           readinessProbe:
             httpGet:
               path: /actuator/health
@@ -35,7 +36,6 @@ spec:
             periodSeconds: 5
             timeoutSeconds: 2
             failureThreshold: 3
-
           livenessProbe:
             httpGet:
               path: /actuator/health
