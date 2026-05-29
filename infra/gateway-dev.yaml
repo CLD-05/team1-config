@@ -4,7 +4,7 @@ kind: GatewayClass
 metadata:
   name: aws-alb
 spec:
-  controllerName: gateway.k8s.aws/alb
+  controllerName: eks.amazonaws.com/alb
 
 ---
 # LoadBalancerConfiguration (team1-app)
@@ -147,4 +147,102 @@ spec:
     backendRefs:
     - name: argocd-server
       port: 80
+      weight: 100
+---
+# LoadBalancerConfiguration (Grafana)
+apiVersion: gateway.k8s.aws/v1beta1
+kind: LoadBalancerConfiguration
+metadata:
+  name: grafana-lb-config
+  namespace: monitoring
+spec:
+  scheme: internet-facing
+---
+# Gateway (Grafana)
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: grafana-gateway
+  namespace: monitoring
+spec:
+  gatewayClassName: aws-alb
+  infrastructure:
+    parametersRef:
+      group: gateway.k8s.aws
+      kind: LoadBalancerConfiguration
+      name: grafana-lb-config
+  listeners:
+  - name: http
+    port: 80
+    protocol: HTTP
+    allowedRoutes:
+      namespaces:
+        from: Same
+---
+# HTTPRoute (Grafana)
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: grafana-route
+  namespace: monitoring
+spec:
+  parentRefs:
+  - name: grafana-gateway
+  rules:
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /
+    backendRefs:
+    - name: kube-prom-stack-grafana
+      port: 80
+      weight: 100
+---
+# LoadBalancerConfiguration (Prometheus)
+apiVersion: gateway.k8s.aws/v1beta1
+kind: LoadBalancerConfiguration
+metadata:
+  name: prometheus-lb-config
+  namespace: monitoring
+spec:
+  scheme: internet-facing
+---
+# Gateway (Prometheus)
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: prometheus-gateway
+  namespace: monitoring
+spec:
+  gatewayClassName: aws-alb
+  infrastructure:
+    parametersRef:
+      group: gateway.k8s.aws
+      kind: LoadBalancerConfiguration
+      name: prometheus-lb-config
+  listeners:
+  - name: http
+    port: 80
+    protocol: HTTP
+    allowedRoutes:
+      namespaces:
+        from: Same
+---
+# HTTPRoute (Prometheus)
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: prometheus-route
+  namespace: monitoring
+spec:
+  parentRefs:
+  - name: prometheus-gateway
+  rules:
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /
+    backendRefs:
+    - name: prometheus-kube-prom-stack-kube-prome-prometheus
+      port: 9090
       weight: 100
