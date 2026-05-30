@@ -8,4 +8,4 @@ resources:
 - external-secret.yaml
 images:
 - name: 495599735720.dkr.ecr.ap-northeast-2.amazonaws.com/team1-app
-  newTag: 7a2cff24a9d89bfe442f77451db4062b77fed29f
+  newTag: f9fb73bfbb9bc9b89ed17ab450360a61a37084d2
