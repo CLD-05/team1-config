@@ -30,7 +30,7 @@ spec:
     targetType: ip
     healthCheckConfig:
       healthCheckPath: /actuator/health
-      healthCheckPort: traffic-port
+      healthCheckPort: "8081"
       healthCheckInterval: 15
       healthyThresholdCount: 2
       unhealthyThresholdCount: 3
