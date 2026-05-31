@@ -4,8 +4,6 @@ metadata:
   name: team1-slack
   namespace: monitoring
   labels:
-    # Alertmanager CR 의 alertmanagerConfigSelector 와 매칭되어야 적용됨.
-    # (월요일 검증 포인트 ② — selector 가 비활성이면 helm values 폴백)
     release: kube-prom-stack
 spec:
   route:

@@ -4,8 +4,6 @@ metadata:
   name: team1-app-alerts
   namespace: monitoring
   labels:
-    # Prometheus Operator 의 ruleSelector 와 매칭되어야 룰이 로드됨.
-    # kube-prom-stack 기본값은 release 라벨 매칭. (월요일 검증 포인트 ① 참고)
     release: kube-prom-stack
 spec:
   groups:
